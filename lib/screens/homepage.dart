@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
         child: Menu(),
       ),
       appBar: AppBar(
-        title: Text('Link Shortner'),
+        title: Text('Home'),
       ),
       body: Container(
         padding: EdgeInsets.all(16),
@@ -40,7 +40,23 @@ class HomeScreen extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    hintText: "Enter the link",
+                    hintText: "Name of the link",
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Center(
+                child: TextField(
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.blueAccent,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    hintText: "Paste the link to be shortened",
                   ),
                 ),
               ),
@@ -83,10 +99,10 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
-              Center(
+              Expanded(
                 child: TextField(
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
@@ -95,7 +111,16 @@ class HomeScreen extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    hintText: "Enter the link",
+                    hintText: "Shortened Link",
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        Icons.content_copy,
+                      ),
+                      onPressed: () {
+                        FlutterClipboard.copy('hello flutter friends')
+                            .then((value) => print('copied'));
+                      },
+                    ),
                   ),
                 ),
               ),

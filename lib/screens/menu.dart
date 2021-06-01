@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:linkshortner/screens/previous_links.dart';
+
+import 'login.dart';
 
 class Menu extends StatelessWidget {
   @override
@@ -24,15 +27,31 @@ class Menu extends StatelessWidget {
             ),
             ListTile(
               title: Text('Home'),
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+              },
             ),
             ListTile(
               title: Text('Previous Links'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PreviousLinks(),
+                  ),
+                );
+              },
             ),
             ListTile(
               title: Text('Logout'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                  ),
+                );
+              },
             ),
           ],
         ),
