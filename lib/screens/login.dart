@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:linkshortner/screens/create_account.dart';
 
 import 'homepage.dart';
 
@@ -25,13 +26,15 @@ class LoginPage extends StatelessWidget {
             Center(
               child: TextField(
                 decoration: InputDecoration(
+                  labelText: 'Username',
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                       color: Colors.blueAccent,
                     ),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.0),
+                    ),
                   ),
-                  hintText: "Username",
                 ),
               ),
             ),
@@ -41,13 +44,15 @@ class LoginPage extends StatelessWidget {
             Center(
               child: TextField(
                 decoration: InputDecoration(
+                  labelText: 'Password',
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                       color: Colors.blueAccent,
                     ),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.0),
+                    ),
                   ),
-                  hintText: "Password",
                 ),
                 obscureText: true,
               ),
@@ -85,9 +90,8 @@ class LoginPage extends StatelessWidget {
                     onPressed: () {
                       print("working");
                       Future.delayed(
-                        Duration(seconds: 3),
+                        Duration(seconds: 1),
                         () {
-                          // 3s over, navigate to a new page
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -99,6 +103,26 @@ class LoginPage extends StatelessWidget {
                     },
                   ),
                 ],
+              ),
+            ),
+            const SizedBox(
+              height: 32,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CreateAccount(),
+                  ),
+                );
+              },
+              child: Text(
+                "Don't have an account? Sign Up",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],

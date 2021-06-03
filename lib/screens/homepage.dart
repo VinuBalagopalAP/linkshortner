@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:clipboard/clipboard.dart';
-import 'menu.dart';
+import 'package:linkshortner/screens/menu.dart';
+import 'package:linkshortner/service/network_handler.dart';
 
 class HomeScreen extends StatelessWidget {
+  final networkHandling = NetworkHandling();
+  Future<void> getData() async {
+    var res = await networkHandling.get("/api/v2/berry");
+    print(res);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,10 +22,9 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Container(
         padding: EdgeInsets.all(16),
-        child: Expanded(
+        child: Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
                 "Link \nShortner!!!",
@@ -85,15 +91,18 @@ class HomeScreen extends StatelessWidget {
                           primary: Colors.white,
                           textStyle: const TextStyle(fontSize: 20),
                         ),
-                        onPressed: () => Fluttertoast.showToast(
-                            msg: "Link Shortened!!!",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.blueAccent[200],
-                            textColor: Colors.white,
-                            fontSize: 16.0),
                         child: const Text('Let\'s shorten it!'),
+                        onPressed: () async {
+                          await getData();
+                          Fluttertoast.showToast(
+                              msg: "Link Shortened!!!",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.blueAccent[200],
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        },
                       ),
                     ),
                   ],
@@ -102,14 +111,19 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              Expanded(
+              Container(
                 child: TextField(
+                  enabled: false,
+                  focusNode: FocusNode(),
+                  enableInteractiveSelection: false,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Colors.blueAccent,
                       ),
-                      borderRadius: BorderRadius.circular(10.0),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
                     ),
                     hintText: "Shortened Link",
                     suffixIcon: IconButton(

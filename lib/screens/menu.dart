@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:linkshortner/screens/previous_links.dart';
 
-import 'login.dart';
+import 'package:linkshortner/screens/login.dart';
 
 class Menu extends StatelessWidget {
   @override
