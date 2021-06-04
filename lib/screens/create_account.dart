@@ -1,7 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:linkshortner/screens/homepage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class CreateAccount extends StatelessWidget {
+class CreateAccount extends StatefulWidget {
+  @override
+  _CreateAccountState createState() => _CreateAccountState();
+}
+
+class _CreateAccountState extends State<CreateAccount> {
+  final _authUser = FirebaseAuth.instance;
+  final _database = FirebaseFirestore.instance;
+  String _userName = '';
+  String _email = '';
+  String _password = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +36,7 @@ class CreateAccount extends StatelessWidget {
             ),
             Center(
               child: TextField(
+                onChanged: (value) => _userName = value,
                 decoration: InputDecoration(
                   labelText: "Username",
                   enabledBorder: OutlineInputBorder(
@@ -39,6 +53,7 @@ class CreateAccount extends StatelessWidget {
             ),
             Center(
               child: TextField(
+                onChanged: (value) => _email = value,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -55,6 +70,7 @@ class CreateAccount extends StatelessWidget {
             ),
             Center(
               child: TextField(
+                onChanged: (value) => _password = value,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -97,19 +113,29 @@ class CreateAccount extends StatelessWidget {
                       primary: Colors.white,
                       textStyle: const TextStyle(fontSize: 20),
                     ),
-                    onPressed: () {
-                      print("working");
-                      Future.delayed(
-                        Duration(seconds: 1),
-                        () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomeScreen(),
-                            ),
-                          );
-                        },
-                      );
+                    onPressed: () async {
+                      UserCredential? user =
+                          await _authUser.createUserWithEmailAndPassword(
+                              email: _email, password: _password);
+                      _database
+                          .collection('/users')
+                          .doc(user.user?.uid)
+                          .set({'username': _userName});
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              HomeScreen(uid: user.user?.uid)));
+                      // print("working");
+                      // Future.delayed(
+                      //   Duration(seconds: 1),
+                      //   () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (context) => HomeScreen(),
+                      //       ),
+                      //     );
+                      //   },
+                      // );
                     },
                   ),
                 ],

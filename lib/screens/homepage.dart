@@ -3,8 +3,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:linkshortner/screens/menu.dart';
 import 'package:linkshortner/service/network_handler.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeScreen extends StatelessWidget {
+  HomeScreen({this.uid = ''});
+  final String? uid;
   final networkHandling = NetworkHandling();
   final TextEditingController _controller = TextEditingController();
 
@@ -13,6 +17,8 @@ class HomeScreen extends StatelessWidget {
     print(res);
   }
 
+  final _authUser = FirebaseAuth.instance;
+  final _database = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,6 +111,10 @@ class HomeScreen extends StatelessWidget {
                                   "long_url": "https://dev.bitly.com"
                                 },
                               );
+                              _database
+                                  .collection('/users')
+                                  .doc(uid)
+                                  .set({'shortened url': 'shortened url'});
                               Fluttertoast.showToast(
                                   msg: "Link Shortened!!!",
                                   toastLength: Toast.LENGTH_SHORT,

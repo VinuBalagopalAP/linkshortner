@@ -1,9 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:linkshortner/screens/create_account.dart';
 
-import 'homepage.dart';
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
 
-class LoginPage extends StatelessWidget {
+class _LoginPageState extends State<LoginPage> {
+  final FirebaseAuth _authUser = FirebaseAuth.instance;
+  String _email = '';
+  String _password = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,8 +32,9 @@ class LoginPage extends StatelessWidget {
             ),
             Center(
               child: TextField(
+                onChanged: (value) => _email = value,
                 decoration: InputDecoration(
-                  labelText: 'Username',
+                  labelText: 'email',
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                       color: Colors.blueAccent,
@@ -43,6 +51,7 @@ class LoginPage extends StatelessWidget {
             ),
             Center(
               child: TextField(
+                onChanged: (value) => _password = value,
                 decoration: InputDecoration(
                   labelText: 'Password',
                   enabledBorder: OutlineInputBorder(
@@ -88,18 +97,23 @@ class LoginPage extends StatelessWidget {
                       textStyle: const TextStyle(fontSize: 20),
                     ),
                     onPressed: () {
-                      print("working");
-                      Future.delayed(
-                        Duration(seconds: 1),
-                        () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomeScreen(),
-                            ),
-                          );
-                        },
-                      );
+                      _authUser
+                          .signInWithEmailAndPassword(
+                              email: _email, password: _password)
+                          .then((value) =>
+                              Navigator.of(context).pushNamed('home'));
+                      // print("working");
+                      // Future.delayed(
+                      //   Duration(seconds: 1),
+                      //   () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (context) => HomeScreen(),
+                      //       ),
+                      //     );
+                      //   },
+                      // );
                     },
                   ),
                 ],
