@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class NetworkHandling {
-  String baseurl = 'https://pokeapi.co';
+  String baseurl = 'https://api-ssl.bitly.com';
   Future get(String url) async {
     url = formatter(url);
     print(url);
@@ -27,6 +27,7 @@ class NetworkHandling {
     print(
       json.encode(body),
     );
+    print(response.body);
     return response;
   }
 

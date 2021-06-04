@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "972134139100",
+    "project_id": "link-shortner-3f8fe",
+    "storage_bucket": "link-shortner-3f8fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:972134139100:android:d7ce4cb43782101ccaa019",
+        "android_client_info": {
+          "package_name": "com.example.linkshortner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "972134139100-f4csbsh5disnjv9i85p7reftf3agssgs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgrAgM1hxwSpOmM4NwiQ3r9RddVGwn-mw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "972134139100-f4csbsh5disnjv9i85p7reftf3agssgs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
