@@ -3,22 +3,31 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:linkshortner/screens/menu.dart';
 import 'package:linkshortner/service/network_handler.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({this.uid = ''});
   final String? uid;
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final networkHandling = NetworkHandling();
+
   final TextEditingController _controller = TextEditingController();
 
-  Future<void> postData(Map<String, String> body) async {
-    var res = await networkHandling.post("/v4/shorten", body);
+  final TextEditingController _controller1 = TextEditingController();
+
+  Future<String> postData(Map<String, String> body) async {
+    var res = await networkHandling.post("/shortUrls", body);
     print(res);
+    return res;
   }
 
-  final _authUser = FirebaseAuth.instance;
   final _database = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,17 +113,24 @@ class HomeScreen extends StatelessWidget {
                             ),
                             child: const Text('Let\'s shorten it!'),
                             onPressed: () async {
-                              await postData(
+                              String shortUrl = await postData(
                                 {
-                                  "group_guid": "Ba1bc23dE4F",
-                                  "domain": "bit.ly",
-                                  "long_url": "https://dev.bitly.com"
+                                  "longUrl": _controller.text,
                                 },
                               );
+                              print(shortUrl);
+                              setState(
+                                () {
+                                  _controller1.text = shortUrl;
+                                },
+                              );
+
                               _database
                                   .collection('/users')
-                                  .doc(uid)
-                                  .set({'shortened url': 'shortened url'});
+                                  .doc(widget.uid)
+                                  .set(
+                                {'shortened url': 'shortened url'},
+                              );
                               Fluttertoast.showToast(
                                   msg: "Link Shortened!!!",
                                   toastLength: Toast.LENGTH_SHORT,
@@ -134,7 +150,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   Container(
                     child: TextField(
-                      enabled: false,
+                      controller: _controller1,
                       focusNode: FocusNode(),
                       enableInteractiveSelection: false,
                       decoration: InputDecoration(
@@ -152,7 +168,7 @@ class HomeScreen extends StatelessWidget {
                             Icons.content_copy,
                           ),
                           onPressed: () {
-                            FlutterClipboard.copy('hello flutter friends')
+                            FlutterClipboard.copy(_controller1.text)
                                 .then((value) => print('copied'));
                           },
                         ),

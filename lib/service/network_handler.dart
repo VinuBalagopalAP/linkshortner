@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class NetworkHandling {
-  String baseurl = 'https://api-ssl.bitly.com';
+  String baseurl = 'https://urlshortnervinu.herokuapp.com';
   Future get(String url) async {
     url = formatter(url);
     print(url);
@@ -14,7 +14,7 @@ class NetworkHandling {
     }
   }
 
-  Future<http.Response> post(String url, Map<String, String> body) async {
+  Future<String> post(String url, Map<String, String> body) async {
     url = formatter(url);
     print(url);
     print(body);
@@ -27,8 +27,11 @@ class NetworkHandling {
     print(
       json.encode(body),
     );
-    print(response.body);
-    return response;
+    Map<String, dynamic> data = jsonDecode(response.body);
+    print(
+      data['shortUrl'],
+    );
+    return data['shortUrl'];
   }
 
   String formatter(String url) => baseurl + url;
