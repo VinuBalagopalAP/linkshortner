@@ -121,21 +121,11 @@ class _CreateAccountState extends State<CreateAccount> {
                           .collection('/users')
                           .doc(user.user?.uid)
                           .set({'username': _userName});
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              HomeScreen(uid: user.user?.uid)));
-                      // print("working");
-                      // Future.delayed(
-                      //   Duration(seconds: 1),
-                      //   () {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (context) => HomeScreen(),
-                      //       ),
-                      //     );
-                      //   },
-                      // );
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => HomeScreen(uid: user.user?.uid),
+                        ),
+                      );
                     },
                   ),
                 ],

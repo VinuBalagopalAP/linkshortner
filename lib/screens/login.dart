@@ -100,20 +100,9 @@ class _LoginPageState extends State<LoginPage> {
                       _authUser
                           .signInWithEmailAndPassword(
                               email: _email, password: _password)
-                          .then((value) =>
-                              Navigator.of(context).pushNamed('home'));
-                      // print("working");
-                      // Future.delayed(
-                      //   Duration(seconds: 1),
-                      //   () {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (context) => HomeScreen(),
-                      //       ),
-                      //     );
-                      //   },
-                      // );
+                          .then(
+                            (value) => Navigator.of(context).pushNamed('home'),
+                          );
                     },
                   ),
                 ],
