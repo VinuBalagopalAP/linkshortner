@@ -33,6 +33,7 @@ dependencies:
   provider: ^5.0.0
   font_awesome_flutter: ^9.0.0
   firebase_core: ^1.2.1
+  url_launcher: ^6.0.6
 
 dev_dependencies:
   flutter_test:
