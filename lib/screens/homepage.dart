@@ -16,9 +16,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final networkHandling = NetworkHandling();
 
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _longurlcontroller = TextEditingController();
 
   final TextEditingController _controller1 = TextEditingController();
+  final TextEditingController _namecontroller = TextEditingController();
 
   Future<String> postData(Map<String, String> body) async {
     var res = await networkHandling.post("/shortUrls", body);
@@ -58,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Center(
                     child: TextField(
+                      controller: _namecontroller,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -74,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Center(
                     child: TextField(
-                      controller: _controller,
+                      controller: _longurlcontroller,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -115,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             onPressed: () async {
                               String shortUrl = await postData(
                                 {
-                                  "longUrl": _controller.text,
+                                  "longUrl": _longurlcontroller.text,
                                 },
                               );
                               print(shortUrl);
@@ -126,11 +128,21 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
 
                               _database
-                                  .collection('/users')
-                                  .doc(widget.uid)
-                                  .set(
-                                {'shortened url': 'shortened url'},
-                              );
+                                  .collection('links')
+                                  .add(
+                                    {
+                                      'url': shortUrl,
+                                      'name': _namecontroller.text,
+                                      'longUrl': _longurlcontroller.text,
+                                    },
+                                  )
+                                  .then(
+                                    (value) => print("User Added"),
+                                  )
+                                  .catchError(
+                                    (error) =>
+                                        print("Failed to add user: $error"),
+                                  );
                               Fluttertoast.showToast(
                                   msg: "Link Shortened!!!",
                                   toastLength: Toast.LENGTH_SHORT,
