@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:linkshortner/screens/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:linkshortner/screens/login.dart';
 
 class CreateAccount extends StatefulWidget {
   @override
@@ -129,6 +130,26 @@ class _CreateAccountState extends State<CreateAccount> {
                     },
                   ),
                 ],
+              ),
+            ),
+            const SizedBox(
+              height: 32,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                  ),
+                );
+              },
+              child: Text(
+                "Already have an account? Login",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
